@@ -44,10 +44,7 @@ app.post('/Cadastro', (req, res) => {
 
 });
 
-
-// =========================
-// ROTA DE LOGIN
-// =========================
+    
 app.post('/Login', (req, res) => {
 
     const { email, senha } = req.body;

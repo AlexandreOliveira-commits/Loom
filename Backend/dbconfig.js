@@ -5,7 +5,7 @@ const conexao = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: 'root',
-        database: 'LoomSite'
+        database: 'LoomSite',
 });
 
 conexao.connect((erro) => {
