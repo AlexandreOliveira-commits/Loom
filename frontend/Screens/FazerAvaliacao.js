@@ -1,3 +1,6 @@
+import { useWindowDimensions } from 'react-native';
+import Screen from '../components/Screen';
+import PageHeader from '../components/PageHeader';
 import { useState } from 'react';
 import {
   View,
@@ -6,10 +9,13 @@ import {
   TextInput,
   StyleSheet,
   Alert,
-  ScrollView
 } from 'react-native';
 
 export default function Avaliacao({ navigation }) {
+  const { width } = useWindowDimensions();
+  const compact = width < 1024;
+  const overrides = { estrela: { fontSize: compact ? 36 : 48 } };
+  const styles = Object.fromEntries(Object.entries(baseStyles).map(([key, value]) => [key, [value, overrides[key]]]));
   const [nota, setNota] = useState(0);
   const [comentario, setComentario] = useState('');
 
@@ -91,61 +97,11 @@ export default function Avaliacao({ navigation }) {
 
   return (
 
-    <ScrollView contentContainerStyle={styles.container}>
+    <Screen contentContainerStyle={styles.container}>
 
       {/* HEADER */}
 
-      <View style={styles.header}>
-
-        <Text style={styles.logo}>
-          LOOM
-        </Text>
-
-        <View style={styles.menu}>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Sobre')}
-          >
-            <Text style={styles.menuText}>
-              Sobre
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Baixar')}
-          >
-            <Text style={styles.menuText}>
-              Baixar
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate('avaliacao')}
-          >
-            <Text style={styles.menuSelecionado}>
-              Avaliações
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate('midia')}
-          >
-            <Text style={styles.menuText}>
-              Mídia
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Perfil')}
-          >
-            <Text style={styles.menuText}>
-              Perfil
-            </Text>
-          </TouchableOpacity>
-
-        </View>
-
-      </View>
+      <PageHeader />
 
 
       {/* CONTEÚDO */}
@@ -242,7 +198,7 @@ export default function Avaliacao({ navigation }) {
         {/* VOLTAR PARA AVALIAÇÕES */}
 
         <TouchableOpacity
-          onPress={() => navigation.navigate('avalicao')}
+          onPress={() => navigation.navigate('avaliacao')}
         >
 
           <Text style={styles.voltar}>
@@ -253,7 +209,7 @@ export default function Avaliacao({ navigation }) {
 
       </View>
 
-    </ScrollView>
+    </Screen>
 
   );
 
@@ -261,7 +217,7 @@ export default function Avaliacao({ navigation }) {
 
 
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
 
   container: {
 
@@ -276,73 +232,14 @@ const styles = StyleSheet.create({
 
   // HEADER
 
-  header: {
-
-    width: '100%',
-
-    backgroundColor: '#FFFFFF',
-
-    paddingHorizontal: 25,
-
-    paddingVertical: 18,
 
 
-    flexDirection: 'row',
-
-    justifyContent: 'space-between',
-
-    alignItems: 'center',
 
 
-    borderBottomWidth: 4,
-
-    borderBottomColor: '#F5A9B8',
-
-  },
 
 
-  logo: {
-
-    fontSize: 28,
-
-    fontWeight: 'bold',
-
-    color: '#5BCEFA',
-
-  },
 
 
-  menu: {
-
-    flexDirection: 'row',
-
-    alignItems: 'center',
-
-    gap: 20,
-
-  },
-
-
-  menuText: {
-
-    fontSize: 16,
-
-    fontWeight: '600',
-
-    color: '#444',
-
-  },
-
-
-  menuSelecionado: {
-
-    fontSize: 16,
-
-    fontWeight: 'bold',
-
-    color: '#F5A9B8',
-
-  },
 
 
   // CONTEÚDO
@@ -405,7 +302,7 @@ const styles = StyleSheet.create({
 
   estrela: {
 
-    fontSize: 48,
+    fontSize: 36,
 
     marginHorizontal: 4,
 

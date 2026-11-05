@@ -1,3 +1,5 @@
+import Screen from '../components/Screen';
+import PageHeader from '../components/PageHeader';
 import { useState } from "react";
 import {
   View,
@@ -5,9 +7,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  ScrollView,
+  useWindowDimensions,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 const fotos = [
   require("../imagens/exemplo.jpeg"),
@@ -23,6 +24,8 @@ const artes = [
 
 function Carrossel({ imagens, titulo }) {
   const [indice, setIndice] = useState(0);
+  const { width } = useWindowDimensions();
+  const compact = width < 600;
 
   function avancar() {
     setIndice((anterior) => (anterior + 1) % imagens.length);
@@ -54,10 +57,10 @@ function Carrossel({ imagens, titulo }) {
         <View style={styles.imagens}>
           <Image source={imagens[indice]} style={styles.imagem} />
 
-          <Image
+          {!compact && <Image
             source={imagens[(indice + 1) % imagens.length]}
             style={styles.imagem}
-          />
+          />}
         </View>
 
         <TouchableOpacity
@@ -74,7 +77,7 @@ function Carrossel({ imagens, titulo }) {
       </View>
 
       <Text style={styles.contador}>
-        {indice + 1} e {((indice + 1) % imagens.length) + 1} /{" "}
+        {indice + 1}{!compact && ` e ${((indice + 1) % imagens.length) + 1}`} /{" "}
         {imagens.length}
       </Text>
     </View>
@@ -82,43 +85,18 @@ function Carrossel({ imagens, titulo }) {
 }
 
 export default function Sobre() {
-  const navigation = useNavigation();
 
   return (
-    <ScrollView
+    <Screen
       style={styles.container}
       contentContainerStyle={styles.areaRolagem}
     >
-      <View style={styles.header}>
-        <Text style={styles.logo}>LOOM</Text>
+      <PageHeader />
 
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => navigation.navigate("Sobre")}>
-            <Text style={styles.subtitle}>Sobre</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate("Baixar")}>
-            <Text style={styles.subtitle}>Baixar</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate("avaliacao")}>
-            <Text style={styles.subtitle}>Avaliações</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate("midia")}>
-            <Text style={styles.subtitle}>Mídia</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate("Perfil")}>
-            <Text style={styles.subtitle}>Perfil</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <Carrossel imagens={fotos} />
+      <Carrossel imagens={fotos} titulo="Jogo" />
 
       <Carrossel imagens={artes} titulo="Fanarts" />
-    </ScrollView>
+    </Screen>
   );
 }
 
@@ -132,38 +110,9 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
 
-  header: {
-    width: "100%",
-    backgroundColor: "#FFFFFF",
-    paddingHorizontal: 25,
-    paddingVertical: 18,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: 16,
-    borderBottomWidth: 4,
-    borderBottomColor: "#F5A9B8",
-  },
 
-  logo: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#5BCEFA",
-  },
 
-  menu: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-    gap: 20,
-  },
 
-  subtitle: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#444",
-  },
 
   secao: {
     paddingTop: 24,

@@ -11,7 +11,7 @@ import Login from '../Screens/Login';
 import Cadastros from '../Screens/Cadastro';
 import Sobre from '../Screens/Sobre';
 import Avaliacao from '../Screens/avaliacao';
-import Baixar from '../Screens/Baixar';
+import Jogar from '../Screens/Jogar';
 import Midia from '../Screens/midia';
 import Perfil from '../Screens/Perfil';
 import FazerAvaliacao from '../Screens/FazerAvaliacao';
@@ -57,8 +57,8 @@ export default function StackNavigator() {
 
 
                 <Stack.Screen
-                    name="Baixar"
-                    component={Baixar}
+                    name="Jogar"
+                    component={Jogar}
                 />
 
 

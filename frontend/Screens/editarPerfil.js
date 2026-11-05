@@ -1,3 +1,6 @@
+import { useWindowDimensions } from 'react-native';
+import Screen from '../components/Screen';
+import PageHeader from '../components/PageHeader';
 import { useEffect, useState } from 'react';
 
 import {
@@ -6,7 +9,6 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
   Alert,
   ActivityIndicator,
 } from 'react-native';
@@ -14,6 +16,10 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function EditarPerfil({ navigation }) {
+  const { width } = useWindowDimensions();
+  const compact = width < 1024;
+  const overrides = { card: { padding: compact ? 20 : 28 } };
+  const styles = Object.fromEntries(Object.entries(baseStyles).map(([key, value]) => [key, [value, overrides[key]]]));
 
   const [idUsuario, setIdUsuario] = useState(null);
 
@@ -132,6 +138,7 @@ export default function EditarPerfil({ navigation }) {
   // ==========================================
 
   async function salvarAlteracoes() {
+    if (salvando || !idUsuario) return;
 
     if (
       nome.trim() === '' ||
@@ -182,7 +189,7 @@ export default function EditarPerfil({ navigation }) {
       const resposta = await fetch(
         `http://localhost:3000/EditarPerfil/${idUsuario}`,
         {
-          method: 'PUT',
+          method: 'POST',
 
           headers: {
             'Content-Type': 'application/json',
@@ -193,6 +200,7 @@ export default function EditarPerfil({ navigation }) {
             email: email.trim(),
             senhaAtual,
             novaSenha,
+            confirmarSenha,
           }),
         }
       );
@@ -215,11 +223,7 @@ export default function EditarPerfil({ navigation }) {
 
       // Atualiza o usuário salvo no AsyncStorage
 
-      const usuarioAtualizado = {
-        id_usuario: idUsuario,
-        nome: nome.trim(),
-        email: email.trim(),
-      };
+      const usuarioAtualizado = dados.usuario;
 
 
       await AsyncStorage.setItem(
@@ -233,17 +237,8 @@ export default function EditarPerfil({ navigation }) {
       setConfirmarSenha('');
 
 
-      Alert.alert(
-        'Perfil atualizado',
-        'Suas informações foram alteradas com sucesso.',
-        [
-          {
-            text: 'OK',
-            onPress: () =>
-              navigation.navigate('Perfil'),
-          },
-        ]
-      );
+      navigation.navigate('Perfil');
+      Alert.alert('Perfil atualizado', dados.mensagem || 'Suas informações foram alteradas com sucesso.');
 
 
     } catch (erro) {
@@ -301,32 +296,14 @@ export default function EditarPerfil({ navigation }) {
 
   return (
 
-    <ScrollView
+    <Screen
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
     >
 
       {/* HEADER */}
 
-      <View style={styles.header}>
-
-        <Text style={styles.logo}>
-          LOOM
-        </Text>
-
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('Perfil')
-          }
-        >
-
-          <Text style={styles.voltarHeader}>
-            Voltar ao perfil
-          </Text>
-
-        </TouchableOpacity>
-
-      </View>
+      <PageHeader backToProfile />
 
 
       {/* CONTEÚDO */}
@@ -487,7 +464,7 @@ export default function EditarPerfil({ navigation }) {
 
       </View>
 
-    </ScrollView>
+    </Screen>
 
   );
 
@@ -498,7 +475,7 @@ export default function EditarPerfil({ navigation }) {
 // ESTILOS
 // ==========================================
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
 
   container: {
     flexGrow: 1,
@@ -508,45 +485,10 @@ const styles = StyleSheet.create({
   },
 
 
-  header: {
-    width: '100%',
-    backgroundColor: '#FFFFFF',
-
-    paddingHorizontal: 35,
-    paddingVertical: 18,
-
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-
-    borderBottomWidth: 3,
-    borderBottomColor: '#F5A9B8',
-
-    elevation: 4,
-
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 5,
-  },
 
 
-  logo: {
-    fontSize: 30,
-    fontWeight: '900',
-    color: '#5BCEFA',
-    letterSpacing: 3,
-  },
 
 
-  voltarHeader: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#555',
-  },
 
 
   conteudo: {
@@ -578,7 +520,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#FFFFFF',
 
-    padding: 28,
+    padding: 20,
 
     borderRadius: 20,
 

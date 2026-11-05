@@ -1,54 +1,37 @@
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useWindowDimensions } from 'react-native';
+import Screen from '../components/Screen';
+import PageHeader from '../components/PageHeader';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
 export default function Sobre() {
-  const navigation = useNavigation();
+  const { width } = useWindowDimensions();
+  const compact = width < 1024;
+  const overrides = { conteudo: compact ? { width: '100%', paddingBottom: 24 } : {},
+ imagem: { width: compact ? Math.min(350, width) : 350, height: compact ? Math.min(350, width) / 1.75 : 200 },
+ sobre: compact ? { flexWrap: 'wrap', gap: 20, paddingHorizontal: 16 } : { flexWrap: 'nowrap', gap: 0, paddingHorizontal: 0 },
+ sobre2: compact ? { flexWrap: 'wrap', gap: 20, paddingHorizontal: 16, marginTop: 48, marginBottom: 32 } : { flexWrap: 'nowrap', gap: 0, paddingHorizontal: 0, marginTop: 100, marginBottom: 0 },
+ descricao: compact ? { height: 'auto', width: '100%', flexBasis: 280, flexGrow: 1, flexShrink: 1, maxWidth: 360, minHeight: 300, paddingVertical: 20, marginTop: 24 } : { width: 300, height: 300, marginTop: 50 } };
+  const styles = Object.fromEntries(Object.entries(baseStyles).map(([key, value]) => [key, [value, overrides[key]]]));
 
   return (
-    <ScrollView style={styles.container}>
-        <View style={styles.header}>
-      <Text style={styles.logo}>LOOM</Text>
-
-      <View style={styles.menu}>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Sobre')}>
-          <Text style={styles.subtitle}>Sobre</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Baixar')}>
-          <Text style={styles.subtitle}>Baixar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('avaliacao')}>
-          <Text style={styles.subtitle}>Avaliações</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('midia')}>
-          <Text style={styles.subtitle}>Mídia</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
-          <Text style={styles.subtitle}>Perfil</Text>
-        </TouchableOpacity>
-
-      </View>
-      </View>
+    <Screen style={styles.container}>
+        <PageHeader />
 
       <Image source={require('../imagens/LOGO.png')}
                                    style={styles.imagem} ></Image>
-      
+
         <View style={styles.conteudo}>
             <Text style={styles.titulo}>Sobre o Jogo</Text>
             <View style={styles.sobre}>
 
-            
+
             <View style={styles.descricao}>
             <Text style={styles.texto}>
                LOOM é um jogo de terror psicológico que busca representar, através de metáforas e elementos simbólicos, algumas das dificuldades
-                enfrentadas por pessoas trans e travestis. A história aborda temas como identidade de gênero, preconceito, aceitação e relações 
+                enfrentadas por pessoas trans e travestis. A história aborda temas como identidade de gênero, preconceito, aceitação e relações
                 sociais.
             </Text>
-           
+
             </View>
             <View style={styles.descricao}>
                <Text style={styles.texto}>
@@ -62,55 +45,39 @@ export default function Sobre() {
               A proposta é utilizar o jogo como uma forma de entretenimento capaz de gerar reflexão, compreensão e empatia.
               </Text>
             </View>
-            
+
           </View>
-          
+
+          {compact ? <>
+          <Text style={styles.titulo}>Autores</Text>
           <View style={styles.sobre2}>
+            <View style={styles.autor}>
+              <Image source={require('../imagens/fotoPerfil.jpg')} style={styles.imagemAutores} />
+              <Text style={styles.Autores}>Alexandre Eduardo Oliveira da Silva Foi o principal desenvolvedor e pesquisador do projeto LOOM</Text>
+            </View>
+            <View style={styles.autor}>
+              <Image source={require('../imagens/FOTOperfil.jpeg')} style={styles.imagemAutores} />
+              <Text style={styles.Autores}>Milena da Silva de Barros Foi a principal artista e designer do projeto LOOM</Text>
+            </View>
+          </View>
+          </> : (<View style={styles.sobre2}>
             <Text style={styles.Autores}>Alexandre Eduardo Oliveira da Silva Foi o principal desenvolvedor e pesquisador do projeto LOOM</Text>
             <Image source={require('../imagens/fotoPerfil.jpg')} style={styles.imagemAutores} />
             <Text style={styles.titulo}>Autores</Text>
             <Image source={require('../imagens/FOTOperfil.jpeg')} style={styles.imagemAutores} />
             <Text style={styles.Autores}>Milena da Silva de Barros Foi a principal artista e designer do projeto LOOM</Text>
-          </View>
+          </View>)}
         </View>
-    </ScrollView>
-    
-    
+    </Screen>
+
+
   );
 }
 
-const styles = StyleSheet.create({
-  header: {
-    width: '100%',
-    backgroundColor: '#FFFFFF',
-    paddingHorizontal: 25,
-    paddingVertical: 18,
+const baseStyles = StyleSheet.create({
 
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
 
-    borderBottomWidth: 4,
-    borderBottomColor: '#F5A9B8',
-  },
 
-  logo: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#5BCEFA',
-  },
-
-  menu: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 20,
-  },
-
-  subtitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#444',
-  },
 
     container: {
     flex: 1,
@@ -135,30 +102,37 @@ const styles = StyleSheet.create({
       display: 'flex',
       alignItems:'center',
       flexDirection:'row',
+      flexWrap: 'wrap',
+      gap: 20,
+      paddingHorizontal: 16,
       justifyContent: 'space-evenly',
     },
     sobre2:{
-      marginTop: 100,
+      marginTop: 48,
+      marginBottom: 32,
       display: 'flex',
       alignItems:'center',
       flexDirection:'row',
+      flexWrap: 'wrap',
+      gap: 20,
+      paddingHorizontal: 16,
       justifyContent: 'space-evenly',
     },
     imagem: {
     width: 350,
-    height:200,
+    height: 200,
     display: 'flex',
     alignSelf: 'center',
   },
     descricao:{
       backgroundColor: '#abdcff',
-      width: 300,  
+      width: 300,
       height: 300,
       display:'flex',
       alignItems:'center',
       justifyContent: 'center',
       borderRadius: 20,
-      marginTop: 50,
+      marginTop: 24,
     },
     imagemAutores: {
       width: 200,
@@ -169,6 +143,8 @@ const styles = StyleSheet.create({
       marginTop: 20,
       alignSelf: 'center',
     },
+    autor: { alignItems: 'center', width: '100%', maxWidth: 320 },
+    conteudo: {},
     Autores:{
       fontSize: 18,
       color: '#f8fcff',
@@ -181,4 +157,4 @@ const styles = StyleSheet.create({
       borderRadius: 20,
       padding: 10,
     }
-}); 
+});

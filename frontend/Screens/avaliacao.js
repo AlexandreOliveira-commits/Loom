@@ -1,3 +1,6 @@
+import { useWindowDimensions } from 'react-native';
+import Screen from '../components/Screen';
+import PageHeader from '../components/PageHeader';
 import { useEffect, useState } from "react";
 
 import {
@@ -5,12 +8,15 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
   ActivityIndicator,
   Alert,
 } from "react-native";
 
 export default function VerAvaliacoes({ navigation }) {
+  const { width } = useWindowDimensions();
+  const compact = width < 1024;
+  const overrides = { card: { paddingHorizontal: compact ? 16 : 22 } };
+  const styles = Object.fromEntries(Object.entries(baseStyles).map(([key, value]) => [key, [value, overrides[key]]]));
   const [avaliacoes, setAvaliacoes] = useState([]);
 
   const [carregando, setCarregando] = useState(true);
@@ -72,32 +78,8 @@ export default function VerAvaliacoes({ navigation }) {
   // ========================================
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.logo}>LOOM</Text>
-
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => navigation.navigate("Sobre")}>
-            <Text style={styles.subtitle}>Sobre</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate("Baixar")}>
-            <Text style={styles.subtitle}>Baixar</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate("avaliacao")}>
-            <Text style={styles.subtitle}>Avaliações</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate("midia")}>
-            <Text style={styles.subtitle}>Mídia</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate("Perfil")}>
-            <Text style={styles.subtitle}>Perfil</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+    <Screen contentContainerStyle={styles.container}>
+      <PageHeader />
       <View style={styles.caixaPrincipal}>
         <Text style={styles.titulo}>Avaliações do LOOM</Text>
 
@@ -168,10 +150,10 @@ export default function VerAvaliacoes({ navigation }) {
           <Text style={styles.botaoVoltarTexto}>Voltar</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </Screen>
   );
 }
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
   // =========================
   // PÁGINA
   // =========================
@@ -187,42 +169,8 @@ const styles = StyleSheet.create({
   // HEADER
   // =========================
 
-  header: {
-    width: "100%",
-    backgroundColor: "#FFFFFF",
 
-    paddingHorizontal: 35,
-    paddingVertical: 18,
 
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-
-    borderBottomWidth: 3,
-    borderBottomColor: "#F5A9B8",
-
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 5,
-    elevation: 4,
-  },
-
-  logo: {
-    fontSize: 30,
-    fontWeight: "900",
-    color: "#5BCEFA",
-    letterSpacing: 3,
-  },
-
-  menu: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 22,
-  },
 
   subtitle: {
     fontSize: 15,
@@ -280,7 +228,7 @@ const styles = StyleSheet.create({
 
     borderRadius: 18,
 
-    paddingHorizontal: 22,
+    paddingHorizontal: 16,
     paddingVertical: 20,
 
     marginBottom: 16,
@@ -306,6 +254,8 @@ const styles = StyleSheet.create({
   // =========================
 
   topoCard: {
+    flexWrap: "wrap",
+    gap: 8,
     width: "100%",
 
     flexDirection: "row",

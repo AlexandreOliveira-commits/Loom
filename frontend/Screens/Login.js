@@ -1,3 +1,5 @@
+import { useWindowDimensions } from 'react-native';
+import Screen from '../components/Screen';
 import { useState } from 'react';
 import {
   View,
@@ -13,6 +15,10 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
+  const { width } = useWindowDimensions();
+  const compact = width < 1024;
+  const overrides = { card: { padding: compact ? 20 : 30 }, imagem: { width: compact ? '100%' : 350, height: compact ? Math.min(350, Math.max(0, width - 80)) / 1.75 : 200 } };
+  const styles = Object.fromEntries(Object.entries(baseStyles).map(([key, value]) => [key, [value, overrides[key]]]));
   const navigation = useNavigation();
 
   const [email, setEmail] = useState('');
@@ -74,7 +80,7 @@ export default function Login() {
   }
 
   return (
-    <View style={styles.container}>
+    <Screen contentContainerStyle={styles.container}>
 
       <View style={styles.card}>
 
@@ -132,14 +138,14 @@ export default function Login() {
 
       </View>
 
-    </View>
+    </Screen>
   );
 }
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
 
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FDEBF2',
@@ -150,7 +156,7 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 400,
     backgroundColor: '#FFFFFF',
-    padding: 30,
+    padding: 20,
     borderRadius: 24,
 
     elevation: 8,
@@ -180,7 +186,7 @@ const styles = StyleSheet.create({
   },
   imagem:{
     width: 350,
-    height:200,
+    height: 200,
   },
 
   input: {

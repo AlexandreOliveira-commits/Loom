@@ -1,71 +1,106 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useState, useEffect } from 'react';
+import { useWindowDimensions } from 'react-native';
+import Screen from '../components/Screen';
+import PageHeader from '../components/PageHeader';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useCallback } from 'react';
 
 export default function Perfil() {
+  const { width } = useWindowDimensions();
+  const compact = width < 1024;
+  const overrides = { card: { width: compact ? '100%' : '90%', padding: compact ? 20 : 30 } };
+  const styles = Object.fromEntries(Object.entries(baseStyles).map(([key, value]) => [key, [value, overrides[key]]]));
     function EditarPerfil() {
         navigation.navigate('editarPerfil');
     }
-    
+
 
   const navigation = useNavigation();
+  const [usuario, setUsuario] = useState(null);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState('');
+  const [tentativa, setTentativa] = useState(0);
+
+  // Refresh on every visit, including the return from editing the profile.
+  useFocusEffect(useCallback(() => {
+    let ativo = true;
+    const controller = new AbortController();
+
+    async function carregarPerfil() {
+      setCarregando(true);
+      setErro('');
+      setUsuario(null);
+      try {
+        const salvo = await AsyncStorage.getItem('usuario');
+        if (!ativo) return;
+        const sessao = salvo ? JSON.parse(salvo) : null;
+        const id = sessao?.id_usuario || sessao?.id;
+        if (!id) {
+          navigation.replace('Login');
+          return;
+        }
+
+        const resposta = await fetch(
+          'http://localhost:3000/Perfil/' + encodeURIComponent(id),
+          { signal: controller.signal }
+        );
+        const dados = await resposta.json();
+        if (!resposta.ok) {
+          throw new Error(dados.mensagem || 'Não foi possível carregar o perfil.');
+        }
+        if (ativo) setUsuario(dados);
+      } catch (falha) {
+        if (ativo) setErro(falha.message === 'Failed to fetch'
+          ? 'Não foi possível conectar ao servidor.'
+          : falha.message || 'Não foi possível carregar o perfil.');
+      } finally {
+        if (ativo) setCarregando(false);
+      }
+    }
+
+    carregarPerfil();
+    return () => { ativo = false; controller.abort(); };
+  }, [navigation, tentativa]));
 
   return (
 
-    <View style={styles.container}>
+    <Screen contentContainerStyle={styles.container}>
 
       {/* MENU */}
 
-      <View style={styles.header}>
-
-        <Text style={styles.logo}>LOOM</Text>
-
-        <View style={styles.menu}>
-
-          <TouchableOpacity onPress={() => navigation.navigate('Sobre')}>
-            <Text style={styles.subtitle}>Sobre</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate('Baixar')}>
-            <Text style={styles.subtitle}>Baixar</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate('avaliacao')}>
-            <Text style={styles.subtitle}>Avaliações</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate('midia')}>
-            <Text style={styles.subtitle}>Mídia</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
-            <Text style={styles.perfilSelecionado}>Perfil</Text>
-          </TouchableOpacity>
-
-        </View>
-
-      </View>
+      <PageHeader />
 
 
       {/* CONTEÚDO DO PERFIL */}
 
       <View style={styles.conteudo}>
 
+        {carregando ? (
+          <ActivityIndicator size="large" color="#5BCEFA" accessibilityLabel="Carregando perfil" />
+        ) : erro ? (
+          <View style={styles.card}>
+            <Text style={styles.valor} accessibilityRole="alert">{erro}</Text>
+            <TouchableOpacity style={styles.botao} onPress={() => setTentativa(valor => valor + 1)}>
+              <Text style={styles.textoBotao}>Tentar novamente</Text>
+            </TouchableOpacity>
+          </View>
+        ) : usuario ? (
         <View style={styles.card}>
 
           {/* FOTO DE PERFIL */}
 
           <View style={styles.foto}>
-            <Text style={styles.inicial}>A</Text>
+            <Text style={styles.inicial}>{usuario.nome?.trim().charAt(0).toUpperCase() || '?'}</Text>
           </View>
 
 
           <Text style={styles.nome}>
-            Seu nome
+            {usuario.nome}
           </Text>
 
           <Text style={styles.email}>
-            seuemail@email.com
+            {usuario.email}
           </Text>
 
 
@@ -79,7 +114,7 @@ export default function Perfil() {
             </Text>
 
             <Text style={styles.valor}>
-              Seu nome
+              {usuario.nome}
             </Text>
 
 
@@ -88,81 +123,48 @@ export default function Perfil() {
             </Text>
 
             <Text style={styles.valor}>
-              seuemail@email.com
+              {usuario.email}
             </Text>
 
           </View>
 
 
-          <TouchableOpacity style={styles.botao}>
+          <TouchableOpacity style={styles.botao} onPress={EditarPerfil}>
 
-            <Text style={styles.textoBotao} onPress={EditarPerfil}>
+            <Text style={styles.textoBotao}>
               Editar perfil
             </Text>
 
           </TouchableOpacity>
 
         </View>
+        ) : null}
 
       </View>
 
-    </View>
+    </Screen>
 
   );
 
 }
 
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
 
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#FDEBF2',
   },
 
 
   /* HEADER */
 
-  header: {
-    width: '100%',
-    backgroundColor: '#FFFFFF',
-    paddingHorizontal: 25,
-    paddingVertical: 18,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottomWidth: 4,
-    borderBottomColor: '#F5A9B8',
-
-  },
 
 
-  logo: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#5BCEFA',
-
-  },
 
 
-  menu: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 20,
-
-  },
-  subtitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#444',
-  },
 
 
-  perfilSelecionado: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#F5A9B8',
-  },
 
 
   /* CONTEÚDO */
@@ -178,11 +180,11 @@ const styles = StyleSheet.create({
 
   card: {
 
-    width: '90%',
+    width: '100%',
     maxWidth: 450,
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
-    padding: 30,
+    padding: 20,
     alignItems: 'center',
     borderTopWidth: 6,
     borderTopColor: '#5BCEFA',

@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useWindowDimensions } from 'react-native';
+import Screen from '../components/Screen';
 import { useState } from 'react';
 
 import {
@@ -11,6 +14,10 @@ import {
 } from 'react-native';
 
 export default function Cadastro({ navigation }) {
+  const { width } = useWindowDimensions();
+  const compact = width < 1024;
+  const overrides = { card: { padding: compact ? 20 : 30 }, imagem: { width: compact ? '100%' : 350, height: compact ? Math.min(350, Math.max(0, width - 80)) / 1.75 : 200 } };
+  const styles = Object.fromEntries(Object.entries(baseStyles).map(([key, value]) => [key, [value, overrides[key]]]));
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -56,7 +63,8 @@ export default function Cadastro({ navigation }) {
       // Se o cadastro funcionou
       if (resposta.ok) {
 
-        navigation.navigate('Sobre');
+        await AsyncStorage.setItem('usuario', JSON.stringify(dados.usuario));
+        navigation.replace('Sobre');
 
         Alert.alert(
           'Sucesso',
@@ -98,7 +106,7 @@ export default function Cadastro({ navigation }) {
 
   return (
 
-    <View style={styles.container}>
+    <Screen contentContainerStyle={styles.container}>
 
       <View style={styles.card}>
 
@@ -153,16 +161,16 @@ export default function Cadastro({ navigation }) {
 
       </View>
 
-    </View>
+    </Screen>
 
   );
 }
 
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
 
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FDEBF2',
@@ -175,7 +183,7 @@ const styles = StyleSheet.create({
 
     backgroundColor: '#FFFFFF',
 
-    padding: 30,
+    padding: 20,
 
     borderRadius: 20,
 
@@ -190,10 +198,11 @@ const styles = StyleSheet.create({
 
   imagem: {
     width: 350,
-    height:200,
+    height: 200,
   },
 
   title: {
+    textAlign: 'center',
     fontSize: 28,
     fontWeight: 'bold',
     color: '#5BCEFA',
