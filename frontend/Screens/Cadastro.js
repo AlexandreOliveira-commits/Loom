@@ -1,3 +1,4 @@
+import { colors } from '../components/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useWindowDimensions } from 'react-native';
 import Screen from '../components/Screen';
@@ -124,7 +125,7 @@ export default function Cadastro({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Nome completo"
-          placeholderTextColor="#999"
+          placeholderTextColor={colors.muted}
           value={nome}
           onChangeText={setNome}
         />
@@ -132,7 +133,7 @@ export default function Cadastro({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Email"
-          placeholderTextColor="#999"
+          placeholderTextColor={colors.muted}
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
@@ -142,7 +143,7 @@ export default function Cadastro({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Senha"
-          placeholderTextColor="#999"
+          placeholderTextColor={colors.muted}
           value={senha}
           onChangeText={setSenha}
           secureTextEntry={true}
@@ -173,7 +174,7 @@ const baseStyles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FDEBF2',
+    backgroundColor: colors.canvas,
     padding: 20,
   },
 
@@ -181,7 +182,7 @@ const baseStyles = StyleSheet.create({
     width: '100%',
     maxWidth: 400,
 
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.surface,
 
     padding: 20,
 
@@ -190,10 +191,10 @@ const baseStyles = StyleSheet.create({
     alignItems: 'center',
 
     borderTopWidth: 6,
-    borderTopColor: '#5BCEFA',
+    borderTopColor: colors.transBlue,
 
     borderBottomWidth: 6,
-    borderBottomColor: '#F5A9B8',
+    borderBottomColor: colors.transPink,
   },
 
   imagem: {
@@ -205,13 +206,13 @@ const baseStyles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#5BCEFA',
+    color: colors.primary,
     marginBottom: 5,
   },
 
   subtitle: {
     fontSize: 14,
-    color: '#777',
+    color: colors.muted,
     marginBottom: 25,
   },
 
@@ -219,10 +220,10 @@ const baseStyles = StyleSheet.create({
     width: '100%',
     height: 50,
 
-    backgroundColor: '#FAFAFA',
+    backgroundColor: colors.field,
 
     borderWidth: 1.5,
-    borderColor: '#F5A9B8',
+    borderColor: colors.line,
 
     borderRadius: 12,
 
@@ -231,14 +232,14 @@ const baseStyles = StyleSheet.create({
     marginBottom: 15,
 
     fontSize: 16,
-    color: '#333',
+    color: colors.ink,
   },
 
   button: {
     width: '100%',
     height: 50,
 
-    backgroundColor: '#5BCEFA',
+    backgroundColor: colors.primary,
 
     borderRadius: 12,
 
@@ -249,7 +250,7 @@ const baseStyles = StyleSheet.create({
   },
 
   buttonText: {
-    color: '#FFFFFF',
+    color: colors.surface,
     fontSize: 16,
     fontWeight: 'bold',
   },

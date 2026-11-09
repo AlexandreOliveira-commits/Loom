@@ -1,3 +1,5 @@
+import TransStripe from '../components/TransStripe';
+import { colors } from '../components/theme';
 import { useWindowDimensions } from 'react-native';
 import Screen from '../components/Screen';
 import { useState } from 'react';
@@ -17,7 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Login() {
   const { width } = useWindowDimensions();
   const compact = width < 1024;
-  const overrides = { card: { padding: compact ? 20 : 30 }, imagem: { width: compact ? '100%' : 350, height: compact ? Math.min(350, Math.max(0, width - 80)) / 1.75 : 200 } };
+  const overrides = { form: { padding: compact ? 20 : 30 }, imagem: { height: compact ? 112 : 144 } };
   const styles = Object.fromEntries(Object.entries(baseStyles).map(([key, value]) => [key, [value, overrides[key]]]));
   const navigation = useNavigation();
 
@@ -83,59 +85,58 @@ export default function Login() {
     <Screen contentContainerStyle={styles.container}>
 
       <View style={styles.card}>
+        <TransStripe style={styles.flag} />
+        <View style={styles.form}>
 
-       <Image source={require('../imagens/LOGO.png')}
-                       style={styles.imagem}
-               ></Image>
+         <Image source={require('../imagens/LOGO.png')}
+                         style={styles.imagem} resizeMode="contain" accessibilityLabel="LOOM"
+                 ></Image>
 
-        <Text style={styles.subtitle}>
-          Entre na sua conta
-        </Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#888"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Senha"
-          placeholderTextColor="#888"
-          value={senha}
-          onChangeText={setSenha}
-          secureTextEntry
-        />
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={fazerLogin}
-        >
-          <Text style={styles.buttonText}>
-            Entrar
+          <Text accessibilityRole="header" style={styles.title}>Boas-vindas</Text>
+          <Text style={styles.subtitle}>
+            Entre na sua conta
           </Text>
-        </TouchableOpacity>
 
-        <View style={styles.linha}>
-          <View style={styles.linhaAzul} />
-          <View style={styles.linhaRosa} />
-        </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor={colors.muted}
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Cadastro')}
-        >
-          <Text style={styles.texto}>
-            Ainda não tem uma conta?{' '}
-            <Text style={styles.cadastro}>
-              Cadastre-se
+          <TextInput
+            style={styles.input}
+            placeholder="Senha"
+            placeholderTextColor={colors.muted}
+            value={senha}
+            onChangeText={setSenha}
+            secureTextEntry
+          />
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={fazerLogin}
+          >
+            <Text style={styles.buttonText}>
+              Entrar
             </Text>
-          </Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
 
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Cadastro')}
+          >
+            <Text style={styles.texto}>
+              Ainda não tem uma conta?{' '}
+              <Text style={styles.cadastro}>
+                Cadastre-se
+              </Text>
+            </Text>
+          </TouchableOpacity>
+
+        </View>
       </View>
 
     </Screen>
@@ -148,16 +149,18 @@ const baseStyles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FDEBF2',
+    backgroundColor: colors.canvas,
     padding: 20,
   },
 
   card: {
     width: '100%',
-    maxWidth: 400,
-    backgroundColor: '#FFFFFF',
-    padding: 20,
+    maxWidth: 440,
+    borderWidth: 1,
+    borderColor: colors.line,
+    backgroundColor: colors.surface,
     borderRadius: 24,
+    overflow: 'hidden',
 
     elevation: 8,
 
@@ -171,41 +174,40 @@ const baseStyles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 38,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#5BCEFA',
+    color: colors.primary,
     marginBottom: 5,
   },
 
   subtitle: {
     fontSize: 16,
     textAlign: 'center',
-    color: '#777',
+    color: colors.muted,
     marginBottom: 30,
   },
   imagem:{
-    width: 350,
-    height: 200,
+    width: '100%',
   },
 
   input: {
     width: '100%',
     height: 52,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: colors.field,
     borderWidth: 2,
-    borderColor: '#F5A9B8',
+    borderColor: colors.line,
     borderRadius: 14,
     paddingHorizontal: 16,
     fontSize: 16,
-    color: '#333',
+    color: colors.ink,
     marginBottom: 15,
   },
 
   button: {
     width: '100%',
     height: 52,
-    backgroundColor: '#5BCEFA',
+    backgroundColor: colors.primary,
     borderRadius: 14,
     justifyContent: 'center',
     alignItems: 'center',
@@ -213,38 +215,23 @@ const baseStyles = StyleSheet.create({
   },
 
   buttonText: {
-    color: '#FFFFFF',
+    color: colors.surface,
     fontSize: 17,
     fontWeight: 'bold',
   },
 
-  linha: {
-    flexDirection: 'row',
-    width: '100%',
-    height: 4,
-    borderRadius: 5,
-    overflow: 'hidden',
-    marginVertical: 22,
-  },
-
-  linhaAzul: {
-    flex: 1,
-    backgroundColor: '#5BCEFA',
-  },
-
-  linhaRosa: {
-    flex: 1,
-    backgroundColor: '#F5A9B8',
-  },
+  flag: { height: 80 },
+  form: { gap: 4 },
 
   texto: {
     textAlign: 'center',
     fontSize: 14,
-    color: '#777',
+    color: colors.muted,
+    marginTop: 18,
   },
 
   cadastro: {
-    color: '#F28FA4',
+    color: colors.accent,
     fontWeight: 'bold',
   },
 

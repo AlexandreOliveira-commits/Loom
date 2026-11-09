@@ -1,3 +1,4 @@
+import { colors } from '../components/theme';
 import Screen from '../components/Screen';
 import PageHeader from '../components/PageHeader';
 import { useState } from "react";
@@ -103,7 +104,7 @@ export default function Sobre() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e3f7ff",
+    backgroundColor: colors.canvas,
   },
 
   areaRolagem: {
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 24,
     fontWeight: "bold",
-    color: "#1b4656",
+    color: colors.ink,
     marginBottom: 16,
   },
 
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     resizeMode: "cover",
     borderWidth: 4,
-    borderColor: "#1b4656",
+    borderColor: colors.ink,
   },
 
   botaoSeta: {
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
   contador: {
     textAlign: "center",
     fontSize: 16,
-    color: "#444",
+    color: colors.ink,
     marginTop: 12,
     marginBottom: 16,
   },

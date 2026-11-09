@@ -1,3 +1,4 @@
+import { colors } from '../components/theme';
 import { useWindowDimensions } from 'react-native';
 import Screen from '../components/Screen';
 import PageHeader from '../components/PageHeader';
@@ -276,7 +277,7 @@ export default function EditarPerfil({ navigation }) {
 
         <ActivityIndicator
           size="large"
-          color="#F5A9B8"
+          color={colors.accent}
         />
 
         <Text style={styles.textoCarregando}>
@@ -334,7 +335,7 @@ export default function EditarPerfil({ navigation }) {
             value={nome}
             onChangeText={setNome}
             placeholder="Digite seu nome"
-            placeholderTextColor="#AAAAAA"
+            placeholderTextColor={colors.muted}
           />
 
 
@@ -349,7 +350,7 @@ export default function EditarPerfil({ navigation }) {
             value={email}
             onChangeText={setEmail}
             placeholder="Digite seu e-mail"
-            placeholderTextColor="#AAAAAA"
+            placeholderTextColor={colors.muted}
             keyboardType="email-address"
             autoCapitalize="none"
           />
@@ -379,7 +380,7 @@ export default function EditarPerfil({ navigation }) {
             value={senhaAtual}
             onChangeText={setSenhaAtual}
             placeholder="Digite sua senha atual"
-            placeholderTextColor="#AAAAAA"
+            placeholderTextColor={colors.muted}
             secureTextEntry
           />
 
@@ -395,7 +396,7 @@ export default function EditarPerfil({ navigation }) {
             value={novaSenha}
             onChangeText={setNovaSenha}
             placeholder="Deixe vazio para não alterar"
-            placeholderTextColor="#AAAAAA"
+            placeholderTextColor={colors.muted}
             secureTextEntry
           />
 
@@ -411,7 +412,7 @@ export default function EditarPerfil({ navigation }) {
             value={confirmarSenha}
             onChangeText={setConfirmarSenha}
             placeholder="Digite a nova senha novamente"
-            placeholderTextColor="#AAAAAA"
+            placeholderTextColor={colors.muted}
             secureTextEntry
           />
 
@@ -430,7 +431,7 @@ export default function EditarPerfil({ navigation }) {
             {salvando ? (
 
               <ActivityIndicator
-                color="#FFFFFF"
+                color={colors.surface}
               />
 
             ) : (
@@ -479,7 +480,7 @@ const baseStyles = StyleSheet.create({
 
   container: {
     flexGrow: 1,
-    backgroundColor: '#F5FBFF',
+    backgroundColor: colors.canvas,
     alignItems: 'center',
     paddingBottom: 50,
   },
@@ -502,14 +503,14 @@ const baseStyles = StyleSheet.create({
   titulo: {
     fontSize: 34,
     fontWeight: '900',
-    color: '#292929',
+    color: colors.ink,
     textAlign: 'center',
   },
 
 
   subtitulo: {
     fontSize: 16,
-    color: '#777',
+    color: colors.muted,
     marginTop: 8,
     marginBottom: 30,
     textAlign: 'center',
@@ -518,14 +519,14 @@ const baseStyles = StyleSheet.create({
 
   card: {
     width: '100%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.surface,
 
     padding: 20,
 
     borderRadius: 20,
 
     borderWidth: 1,
-    borderColor: '#DCEFF7',
+    borderColor: colors.line,
 
     elevation: 3,
 
@@ -542,7 +543,7 @@ const baseStyles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#444',
+    color: colors.ink,
 
     marginBottom: 8,
     marginTop: 15,
@@ -553,17 +554,17 @@ const baseStyles = StyleSheet.create({
     width: '100%',
     height: 52,
 
-    backgroundColor: '#F8FBFC',
+    backgroundColor: colors.field,
 
     borderWidth: 1.5,
-    borderColor: '#D9E8EE',
+    borderColor: colors.line,
 
     borderRadius: 12,
 
     paddingHorizontal: 15,
 
     fontSize: 15,
-    color: '#333',
+    color: colors.ink,
   },
 
 
@@ -571,7 +572,7 @@ const baseStyles = StyleSheet.create({
     width: '100%',
     height: 1,
 
-    backgroundColor: '#EEEEEE',
+    backgroundColor: colors.line,
 
     marginTop: 30,
     marginBottom: 25,
@@ -584,7 +585,7 @@ const baseStyles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '800',
 
-    color: '#292929',
+    color: colors.ink,
   },
 
 
@@ -592,7 +593,7 @@ const baseStyles = StyleSheet.create({
     width: '100%',
 
     fontSize: 13,
-    color: '#888',
+    color: colors.muted,
 
     lineHeight: 19,
 
@@ -604,7 +605,7 @@ const baseStyles = StyleSheet.create({
   botaoSalvar: {
     width: '100%',
 
-    backgroundColor: '#F5A9B8',
+    backgroundColor: colors.accent,
 
     paddingVertical: 16,
 
@@ -616,7 +617,7 @@ const baseStyles = StyleSheet.create({
 
     elevation: 3,
 
-    shadowColor: '#F5A9B8',
+    shadowColor: colors.accent,
     shadowOffset: {
       width: 0,
       height: 3,
@@ -632,7 +633,7 @@ const baseStyles = StyleSheet.create({
 
 
   textoBotaoSalvar: {
-    color: '#FFFFFF',
+    color: colors.surface,
 
     fontSize: 16,
     fontWeight: '800',
@@ -654,7 +655,7 @@ const baseStyles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
 
-    color: '#777',
+    color: colors.muted,
   },
 
 
@@ -664,12 +665,12 @@ const baseStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
 
-    backgroundColor: '#F5FBFF',
+    backgroundColor: colors.canvas,
   },
 
 
   textoCarregando: {
-    color: '#777',
+    color: colors.muted,
     fontSize: 14,
 
     marginTop: 15,

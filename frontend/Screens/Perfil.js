@@ -1,3 +1,4 @@
+import { colors } from '../components/theme';
 import { useWindowDimensions } from 'react-native';
 import Screen from '../components/Screen';
 import PageHeader from '../components/PageHeader';
@@ -77,7 +78,7 @@ export default function Perfil() {
       <View style={styles.conteudo}>
 
         {carregando ? (
-          <ActivityIndicator size="large" color="#5BCEFA" accessibilityLabel="Carregando perfil" />
+          <ActivityIndicator size="large" color={colors.primary} accessibilityLabel="Carregando perfil" />
         ) : erro ? (
           <View style={styles.card}>
             <Text style={styles.valor} accessibilityRole="alert">{erro}</Text>
@@ -153,7 +154,7 @@ const baseStyles = StyleSheet.create({
 
   container: {
     flexGrow: 1,
-    backgroundColor: '#FDEBF2',
+    backgroundColor: colors.canvas,
   },
 
 
@@ -182,14 +183,14 @@ const baseStyles = StyleSheet.create({
 
     width: '100%',
     maxWidth: 450,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.surface,
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
     borderTopWidth: 6,
-    borderTopColor: '#5BCEFA',
+    borderTopColor: colors.transBlue,
     borderBottomWidth: 6,
-    borderBottomColor: '#F5A9B8',
+    borderBottomColor: colors.transPink,
   },
 
 
@@ -199,18 +200,18 @@ const baseStyles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: '#5BCEFA',
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 5,
-    borderColor: '#F5A9B8',
+    borderColor: colors.line,
     marginBottom: 15,
   },
 
   inicial: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.surface,
   },
 
 
@@ -219,13 +220,13 @@ const baseStyles = StyleSheet.create({
   nome: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.ink,
   },
 
 
   email: {
     fontSize: 14,
-    color: '#777',
+    color: colors.muted,
     marginTop: 5,
   },
 
@@ -233,7 +234,7 @@ const baseStyles = StyleSheet.create({
   divisor: {
     width: '100%',
     height: 1,
-    backgroundColor: '#EEEEEE',
+    backgroundColor: colors.line,
     marginVertical: 25,
   },
 
@@ -245,7 +246,7 @@ const baseStyles = StyleSheet.create({
 
   label: {
     fontSize: 13,
-    color: '#F5A9B8',
+    color: colors.accent,
     fontWeight: 'bold',
     marginBottom: 4,
   },
@@ -253,13 +254,13 @@ const baseStyles = StyleSheet.create({
 
   valor: {
     fontSize: 16,
-    color: '#444',
+    color: colors.ink,
     marginBottom: 20,
   },
   botao: {
     width: '100%',
     height: 48,
-    backgroundColor: '#5BCEFA',
+    backgroundColor: colors.primary,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
@@ -269,7 +270,7 @@ const baseStyles = StyleSheet.create({
 
 
   textoBotao: {
-    color: '#FFFFFF',
+    color: colors.surface,
     fontSize: 16,
     fontWeight: 'bold',
 

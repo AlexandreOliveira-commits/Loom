@@ -1,3 +1,4 @@
+import { colors } from '../components/theme';
 import { useWindowDimensions } from 'react-native';
 import Screen from '../components/Screen';
 import PageHeader from '../components/PageHeader';
@@ -166,7 +167,7 @@ export default function Avaliacao({ navigation }) {
 
           placeholder="Escreva sua avaliação..."
 
-          placeholderTextColor="#888"
+          placeholderTextColor={colors.muted}
 
           multiline
 
@@ -223,7 +224,7 @@ const baseStyles = StyleSheet.create({
 
     flexGrow: 1,
 
-    backgroundColor: '#fff7fc',
+    backgroundColor: colors.canvas,
 
     alignItems: 'center'
 
@@ -265,7 +266,7 @@ const baseStyles = StyleSheet.create({
 
     fontWeight: 'bold',
 
-    color: '#333333',
+    color: colors.ink,
 
     textAlign: 'center',
 
@@ -276,7 +277,7 @@ const baseStyles = StyleSheet.create({
 
     fontSize: 16,
 
-    color: '#666666',
+    color: colors.muted,
 
     marginTop: 8,
 
@@ -311,14 +312,14 @@ const baseStyles = StyleSheet.create({
 
   estrelaNormal: {
 
-    color: '#dddddd',
+    color: colors.line,
 
   },
 
 
   estrelaSelecionada: {
 
-    color: '#ff9dcc',
+    color: colors.accent,
 
   },
 
@@ -327,7 +328,7 @@ const baseStyles = StyleSheet.create({
 
     fontSize: 16,
 
-    color: '#555555',
+    color: colors.ink,
 
     marginBottom: 25,
 
@@ -346,11 +347,11 @@ const baseStyles = StyleSheet.create({
 
     minHeight: 150,
 
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.surface,
 
     borderWidth: 2,
 
-    borderColor: '#a8d8ff',
+    borderColor: colors.line,
 
     borderRadius: 18,
 
@@ -358,7 +359,7 @@ const baseStyles = StyleSheet.create({
 
     fontSize: 16,
 
-    color: '#333333',
+    color: colors.ink,
 
     marginBottom: 25,
 
@@ -373,7 +374,7 @@ const baseStyles = StyleSheet.create({
 
     maxWidth: 350,
 
-    backgroundColor: '#ff9dcc',
+    backgroundColor: colors.accent,
 
     paddingVertical: 15,
 
@@ -388,7 +389,7 @@ const baseStyles = StyleSheet.create({
 
   textoBotao: {
 
-    color: '#ffffff',
+    color: colors.surface,
 
     fontSize: 17,
 
@@ -400,7 +401,7 @@ const baseStyles = StyleSheet.create({
   voltar: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#5BCEFA',
+    color: colors.primary,
 
     marginBottom: 40
 
