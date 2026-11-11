@@ -1,6 +1,3 @@
-import { colors } from '../components/theme';
-import Screen from '../components/Screen';
-import PageHeader from '../components/PageHeader';
 import { useState } from "react";
 import {
   View,
@@ -11,10 +8,19 @@ import {
   useWindowDimensions,
 } from "react-native";
 
+import { colors } from "../components/theme";
+import Screen from "../components/Screen";
+import PageHeader from "../components/PageHeader";
+
+const ESPESSURA_BORDA = 4;
+const ALTURA_MAXIMA = 460;
+
 const fotos = [
-  require("../imagens/exemplo.jpeg"),
-  require("../imagens/exemplo.jpeg"),
-  require("../imagens/exemplo.jpeg"),
+  require("../imagens/telaEscolha.png"),
+  require("../imagens/TelaSala.png"),
+  require("../imagens/TelaFSala.png"),
+  require("../imagens/TelaCorredor.png"),
+  require("../imagens/TelaQuarto.png"),
 ];
 
 const artes = [
@@ -23,10 +29,70 @@ const artes = [
   require("../imagens/exemplo.jpeg"),
 ];
 
+function FotoComBorda({ source }) {
+  const [larguraColuna, setLarguraColuna] = useState(0);
+  const [fotoCarregada, setFotoCarregada] = useState(null);
+
+  const dimensoes =
+    fotoCarregada?.source === source ? fotoCarregada : null;
+
+  const larguraDisponivel = Math.max(
+    1,
+    larguraColuna - ESPESSURA_BORDA * 2
+  );
+
+  let largura = larguraDisponivel;
+  let altura = Math.min(larguraDisponivel, ALTURA_MAXIMA);
+
+  if (dimensoes) {
+    const escala = Math.min(
+      larguraDisponivel / dimensoes.width,
+      ALTURA_MAXIMA / dimensoes.height
+    );
+
+    largura = dimensoes.width * escala;
+    altura = dimensoes.height * escala;
+  }
+
+  function aoCarregar(evento) {
+    const arquivo = evento.nativeEvent?.source;
+    const width = arquivo?.width ?? evento.target?.naturalWidth;
+    const height = arquivo?.height ?? evento.target?.naturalHeight;
+
+    if (width > 0 && height > 0) {
+      setFotoCarregada({ source, width, height });
+    }
+  }
+
+  return (
+    <View
+      style={styles.colunaImagem}
+      onLayout={({ nativeEvent }) => {
+        setLarguraColuna(nativeEvent.layout.width);
+      }}
+    >
+      <View
+        style={[
+          styles.moldura,
+          { borderWidth: dimensoes && larguraColuna > 0 ? ESPESSURA_BORDA : 0 },
+        ]}
+      >
+        <Image
+          source={source}
+          resizeMode="contain"
+          onLoad={aoCarregar}
+          style={{ width: largura, height: altura }}
+        />
+      </View>
+    </View>
+  );
+}
+
 function Carrossel({ imagens, titulo }) {
   const [indice, setIndice] = useState(0);
   const { width } = useWindowDimensions();
   const compact = width < 600;
+  const proximoIndice = (indice + 1) % imagens.length;
 
   function avancar() {
     setIndice((anterior) => (anterior + 1) % imagens.length);
@@ -56,12 +122,9 @@ function Carrossel({ imagens, titulo }) {
         </TouchableOpacity>
 
         <View style={styles.imagens}>
-          <Image source={imagens[indice]} style={styles.imagem} />
+          <FotoComBorda source={imagens[indice]} />
 
-          {!compact && <Image
-            source={imagens[(indice + 1) % imagens.length]}
-            style={styles.imagem}
-          />}
+          {!compact && <FotoComBorda source={imagens[proximoIndice]} />}
         </View>
 
         <TouchableOpacity
@@ -78,24 +141,20 @@ function Carrossel({ imagens, titulo }) {
       </View>
 
       <Text style={styles.contador}>
-        {indice + 1}{!compact && ` e ${((indice + 1) % imagens.length) + 1}`} /{" "}
-        {imagens.length}
+        {indice + 1}{!compact && ` e ${proximoIndice + 1}`} / {imagens.length}
       </Text>
     </View>
   );
 }
 
-export default function Sobre() {
-
+export default function Midia() {
   return (
     <Screen
       style={styles.container}
       contentContainerStyle={styles.areaRolagem}
     >
       <PageHeader />
-
       <Carrossel imagens={fotos} titulo="Jogo" />
-
       <Carrossel imagens={artes} titulo="Fanarts" />
     </Screen>
   );
@@ -111,12 +170,16 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
 
-
-
-
-
   secao: {
-    paddingTop: 24,
+    width: "96%",
+    maxWidth: 940,
+    alignSelf: "center",
+    backgroundColor: colors.surface,
+    paddingVertical: 16,
+    borderRadius: 100,
+    borderWidth: 2,
+    borderColor: colors.ink,
+    marginTop: 24,
   },
 
   titulo: {
@@ -129,7 +192,6 @@ const styles = StyleSheet.create({
 
   conteudo: {
     width: "100%",
-    maxWidth: 940,
     alignSelf: "center",
     flexDirection: "row",
     alignItems: "center",
@@ -140,18 +202,24 @@ const styles = StyleSheet.create({
 
   imagens: {
     flex: 1,
+    minWidth: 0,
     flexDirection: "row",
+    alignItems: "center",
     gap: 12,
   },
 
-  imagem: {
+  colunaImagem: {
     flex: 1,
+    flexBasis: 0,
     minWidth: 0,
-    aspectRatio: 1,
-    borderRadius: 10,
-    resizeMode: "cover",
-    borderWidth: 4,
+    alignItems: "center",
+  },
+
+  moldura: {
+    backgroundColor: colors.surface,
     borderColor: colors.ink,
+    borderRadius: 8,
+    overflow: "hidden",
   },
 
   botaoSeta: {
