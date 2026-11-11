@@ -125,7 +125,7 @@ export default function Cadastro({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Nome completo"
-          placeholderTextColor={colors.muted}
+          placeholderTextColor={colors.inputPlaceholder}
           value={nome}
           onChangeText={setNome}
         />
@@ -133,7 +133,7 @@ export default function Cadastro({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Email"
-          placeholderTextColor={colors.muted}
+          placeholderTextColor={colors.inputPlaceholder}
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
@@ -143,7 +143,7 @@ export default function Cadastro({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Senha"
-          placeholderTextColor={colors.muted}
+          placeholderTextColor={colors.inputPlaceholder}
           value={senha}
           onChangeText={setSenha}
           secureTextEntry={true}
@@ -170,6 +170,8 @@ export default function Cadastro({ navigation }) {
 
 const baseStyles = StyleSheet.create({
 
+
+
   container: {
     flexGrow: 1,
     justifyContent: 'center',
@@ -191,10 +193,10 @@ const baseStyles = StyleSheet.create({
     alignItems: 'center',
 
     borderTopWidth: 6,
-    borderTopColor: colors.transBlue,
+    borderTopColor: '#e1f1f9',
 
     borderBottomWidth: 6,
-    borderBottomColor: colors.transPink,
+    borderBottomColor: '#fbeaf7',
   },
 
   imagem: {
@@ -220,7 +222,7 @@ const baseStyles = StyleSheet.create({
     width: '100%',
     height: 50,
 
-    backgroundColor: colors.field,
+    backgroundColor: colors.inputBackground,
 
     borderWidth: 1.5,
     borderColor: colors.line,
@@ -232,7 +234,7 @@ const baseStyles = StyleSheet.create({
     marginBottom: 15,
 
     fontSize: 16,
-    color: colors.ink,
+    color: colors.inputText,
   },
 
   button: {

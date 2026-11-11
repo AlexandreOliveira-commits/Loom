@@ -335,7 +335,7 @@ export default function EditarPerfil({ navigation }) {
             value={nome}
             onChangeText={setNome}
             placeholder="Digite seu nome"
-            placeholderTextColor={colors.muted}
+            placeholderTextColor={colors.inputPlaceholder}
           />
 
 
@@ -350,7 +350,7 @@ export default function EditarPerfil({ navigation }) {
             value={email}
             onChangeText={setEmail}
             placeholder="Digite seu e-mail"
-            placeholderTextColor={colors.muted}
+            placeholderTextColor={colors.inputPlaceholder}
             keyboardType="email-address"
             autoCapitalize="none"
           />
@@ -380,7 +380,7 @@ export default function EditarPerfil({ navigation }) {
             value={senhaAtual}
             onChangeText={setSenhaAtual}
             placeholder="Digite sua senha atual"
-            placeholderTextColor={colors.muted}
+            placeholderTextColor={colors.inputPlaceholder}
             secureTextEntry
           />
 
@@ -396,7 +396,7 @@ export default function EditarPerfil({ navigation }) {
             value={novaSenha}
             onChangeText={setNovaSenha}
             placeholder="Deixe vazio para não alterar"
-            placeholderTextColor={colors.muted}
+            placeholderTextColor={colors.inputPlaceholder}
             secureTextEntry
           />
 
@@ -412,7 +412,7 @@ export default function EditarPerfil({ navigation }) {
             value={confirmarSenha}
             onChangeText={setConfirmarSenha}
             placeholder="Digite a nova senha novamente"
-            placeholderTextColor={colors.muted}
+            placeholderTextColor={colors.inputPlaceholder}
             secureTextEntry
           />
 
@@ -554,7 +554,7 @@ const baseStyles = StyleSheet.create({
     width: '100%',
     height: 52,
 
-    backgroundColor: colors.field,
+    backgroundColor: colors.inputBackground,
 
     borderWidth: 1.5,
     borderColor: colors.line,
@@ -564,7 +564,7 @@ const baseStyles = StyleSheet.create({
     paddingHorizontal: 15,
 
     fontSize: 15,
-    color: colors.ink,
+    color: colors.inputText,
   },
 
 

@@ -167,7 +167,7 @@ export default function Avaliacao({ navigation }) {
 
           placeholder="Escreva sua avaliação..."
 
-          placeholderTextColor={colors.muted}
+          placeholderTextColor={colors.inputPlaceholder}
 
           multiline
 
@@ -347,7 +347,7 @@ const baseStyles = StyleSheet.create({
 
     minHeight: 150,
 
-    backgroundColor: colors.surface,
+    backgroundColor: colors.inputBackground,
 
     borderWidth: 2,
 
@@ -359,7 +359,7 @@ const baseStyles = StyleSheet.create({
 
     fontSize: 16,
 
-    color: colors.ink,
+    color: colors.inputText,
 
     marginBottom: 25,
 

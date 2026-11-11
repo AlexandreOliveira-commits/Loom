@@ -254,7 +254,7 @@ const baseStyles = StyleSheet.create({
 
   valor: {
     fontSize: 16,
-    color: colors.ink,
+    color: colors.corTexto,
     marginBottom: 20,
   },
   botao: {

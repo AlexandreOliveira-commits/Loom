@@ -100,7 +100,7 @@ export default function Login() {
           <TextInput
             style={styles.input}
             placeholder="Email"
-            placeholderTextColor={colors.muted}
+            placeholderTextColor={colors.corTexto}
             value={email}
             onChangeText={setEmail}
             autoCapitalize="none"
@@ -110,7 +110,7 @@ export default function Login() {
           <TextInput
             style={styles.input}
             placeholder="Senha"
-            placeholderTextColor={colors.muted}
+            placeholderTextColor={colors.corTexto}
             value={senha}
             onChangeText={setSenha}
             secureTextEntry
@@ -194,13 +194,13 @@ const baseStyles = StyleSheet.create({
   input: {
     width: '100%',
     height: 52,
-    backgroundColor: colors.field,
+    backgroundColor: colors.inputBackground,
     borderWidth: 2,
     borderColor: colors.line,
     borderRadius: 14,
     paddingHorizontal: 16,
     fontSize: 16,
-    color: colors.ink,
+    color: colors.inputText,
     marginBottom: 15,
   },
 

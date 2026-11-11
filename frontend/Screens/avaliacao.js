@@ -126,6 +126,6 @@ const styles = StyleSheet.create({
   rating: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 8 },
   stars: { color: colors.accent, fontSize: 22, letterSpacing: 2 },
   score: { color: colors.accent, backgroundColor: colors.tint, fontWeight: "800", borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4 },
-  comment: { color: colors.ink, fontSize: 16, lineHeight: 24 },
+  comment: { color: colors.corTexto, fontSize: 16, lineHeight: 24 },
   date: { color: colors.muted, fontSize: 13 },
 });

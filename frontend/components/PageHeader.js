@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     width: '100%', maxWidth: 1120, alignSelf: 'center', paddingVertical: 12, paddingHorizontal: 16,
     flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 8,
   },
-  logo: { color: colors.transBlue, fontSize: 24, fontWeight: '900', letterSpacing: 5 },
+  logo: { color: '#f5d6f1', fontSize: 24, fontWeight: '900', letterSpacing: 5 },
   menu: { flexDirection: 'row', flexWrap: 'wrap', gap: 4, maxWidth: '100%' },
   link: { minHeight: 44, justifyContent: 'center', paddingHorizontal: 10, borderRadius: 10 },
   activeLink: { backgroundColor: colors.tint },
