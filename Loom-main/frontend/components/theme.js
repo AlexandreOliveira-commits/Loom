@@ -1,0 +1,13 @@
+export const colors = {
+  canvas: '#f8fdff',
+  surface: '#ffffff',
+  field: '#F8FBFE',
+  ink: 'rgb(255, 255, 255)',
+  muted: '#81a3be',
+  line: '#ffd9f2',
+  primary: '#d8b9ce',
+  accent: '#5cb1d3',
+  tint: '#ffdfea',
+  transBlue: '#def6ff',
+  transPink: '#ffdfea',
+};
