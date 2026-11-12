@@ -3,6 +3,7 @@ export const colors = {
   surface: '#ffffff',
   field: '#F8FBFE',
   ink: 'rgb(255, 255, 255)',
+  corTextoRosa: 'rgb(192, 129, 168)',
   muted: '#81a3be',
   line: '#ffd9f2',
   primary: '#d8b9ce',

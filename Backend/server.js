@@ -252,9 +252,7 @@ app.post('/EditarPerfil/:id', (req, res) => {
   });
 });
 
-// =========================
-// VER AVALIAÇÕES
-// =========================
+
 app.get('/VerAvaliacoes', (req, res) => {
 
     const sql = `
@@ -288,9 +286,6 @@ app.get('/VerAvaliacoes', (req, res) => {
 });
 
 
-// =========================
-// FAZER AVALIAÇÃO
-// =========================
 app.post('/FazerAvaliacao', (req, res) => {
 
     const { nota, comentario } = req.body;

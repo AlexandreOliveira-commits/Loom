@@ -23,11 +23,6 @@ const fotos = [
   require("../imagens/TelaQuarto.png"),
 ];
 
-const artes = [
-  require("../imagens/exemplo.jpeg"),
-  require("../imagens/exemplo.jpeg"),
-  require("../imagens/exemplo.jpeg"),
-];
 
 function FotoComBorda({ source }) {
   const [larguraColuna, setLarguraColuna] = useState(0);
@@ -155,7 +150,6 @@ export default function Midia() {
     >
       <PageHeader />
       <Carrossel imagens={fotos} titulo="Jogo" />
-      <Carrossel imagens={artes} titulo="Fanarts" />
     </Screen>
   );
 }

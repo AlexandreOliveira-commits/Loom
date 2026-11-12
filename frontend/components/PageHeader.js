@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
   menu: { flexDirection: 'row', flexWrap: 'wrap', gap: 4, maxWidth: '100%' },
   link: { minHeight: 44, justifyContent: 'center', paddingHorizontal: 10, borderRadius: 10 },
   activeLink: { backgroundColor: colors.tint },
-  label: { color: colors.tint, fontSize: 14, fontWeight: '600' },
+  label: { color: colors.corTextoRosa, fontSize: 14, fontWeight: '600' },
   activeLabel: { color: colors.primary, fontWeight: '800' },
 });
